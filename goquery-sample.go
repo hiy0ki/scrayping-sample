@@ -1,14 +1,16 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ExampleScrape(word string) {
-	doc, err := goquery.NewDocument("http://qiita.com/search?q=" + word)
+func scrape(word string) {
+	// todo wordをURLエンコードする
+	doc, err := goquery.NewDocument("http://qiita.com/search?sort=created&q=" + word)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,5 +25,11 @@ func ExampleScrape(word string) {
 }
 
 func main() {
-	ExampleScrape("golang")
+
+	w := flag.String("w", "golang", "set search word.")
+	flag.Parse()
+
+	fmt.Println(*w)
+
+	scrape(*w)
 }
